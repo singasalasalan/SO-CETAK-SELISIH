@@ -1,1 +1,23 @@
 
+{
+  "id": "/",
+  "name": "SO SAKTI",
+  "short_name": "SO SAKTI",
+  "description": "Stock Opname — Lebih Mudah, Lebih Akurat",
+  "lang": "id",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b1b3a",
+  "theme_color": "#0b1b3a",
+  "icons": [
+    {
+      "src": "/icons/so-sakti.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
+
