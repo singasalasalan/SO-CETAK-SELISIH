@@ -1,11 +1,13 @@
 
-const CACHE_NAME = "so-sakti-v1";
+const CACHE_NAME = "so-sakti-v2";
+
 const APP_SHELL = [
   "/",
   "/manifest.webmanifest",
   "/icons/so-sakti.svg"
 ];
 
+// Saat service worker dipasang
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -14,6 +16,7 @@ self.addEventListener("install", (event) => {
   );
 });
 
+// Saat service worker aktif
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys()
@@ -28,22 +31,30 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+// Mengatur permintaan jaringan
 self.addEventListener("fetch", (event) => {
   const request = event.request;
+  const url = new URL(request.url);
 
+  // Jangan menyimpan API atau permintaan selain GET
   if (
     request.method !== "GET" ||
-    new URL(request.url).origin !== self.location.origin
+    url.origin !== self.location.origin ||
+    url.pathname.startsWith("/api/")
   ) {
     return;
   }
 
+  // Untuk halaman utama
   if (request.mode === "navigate") {
     event.respondWith(
       fetch(request)
         .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put("/", copy));
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME)
+              .then((cache) => cache.put("/", copy));
+          }
           return response;
         })
         .catch(() => caches.match("/"))
@@ -51,6 +62,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  // Untuk file pendukung aplikasi
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) return cached;
@@ -58,11 +70,11 @@ self.addEventListener("fetch", (event) => {
       return fetch(request).then((response) => {
         if (response.ok) {
           const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+          caches.open(CACHE_NAME)
+            .then((cache) => cache.put(request, copy));
         }
         return response;
       });
     })
   );
 });
-
