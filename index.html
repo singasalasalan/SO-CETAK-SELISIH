@@ -1,18 +1,31 @@
+
 <!doctype html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Report Cetak Selisih - Stock Opname</title>
-    <meta name="description" content="Dashboard Laporan Cetak Selisih dan Prosentase Stock Opname Alfamart dengan integrasi API Posisi Mutasi OH Toko per PLU." />
-    <meta property="og:title" content="Dashboard Report Cetak Selisih - Stock Opname" />
-    <meta property="og:description" content="Dashboard Laporan Cetak Selisih dan Prosentase Stock Opname Alfamart dengan integrasi API Posisi Mutasi OH Toko per PLU." />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
+
+    <title>SO SAKTI</title>
+    <meta name="description" content="Stock Opname — Lebih Mudah, Lebih Akurat" />
+    <meta name="theme-color" content="#0b1b3a" />
+
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icons/so-sakti.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/so-sakti.svg" />
+
   </head>
   <body>
     <div id="root"></div>
+
     <script type="module" src="/src/main.tsx"></script>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/service-worker.js")
+            .catch((error) => console.error("Service Worker:", error));
+        });
+      }
+    </script>
   </body>
 </html>
-
